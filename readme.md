@@ -1,0 +1,25 @@
+## 📁 Structure du projet
+
+    Backend_Hyper_Analyzer_FastAPI/
+    │
+    ├── app/
+    │ ├── .env 
+    │ ├── hf_model
+    │ ├── main.py
+    │ ├── models.py
+    │ └── schemas.py
+    │
+    │
+    ├── tests/ 
+    │ ├── test_chainage_complet.py
+    │ ├── test_gemini.py 
+    │ └── test_hf.py
+    │
+    │
+    ├── venv/
+    │
+    ├── .dockerignore
+    ├── .gitignore 
+    ├── Dockerfile
+    ├── README.md
+    └── requirements.txt
