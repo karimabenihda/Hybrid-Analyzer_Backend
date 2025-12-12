@@ -5,17 +5,17 @@ import os
 from sqlalchemy import select
 # from model import User ,Historique,Category
 from app.model import User ,Historique,Category
-from schemas import UserLogin, UserRegister ,ClassifyText,CategoryInDB,AnalyzeRequest,ClassifyRequest
-# from app.schemas import UserLogin, UserRegister ,ClassifyText,CategoryInDB,AnalyzeRequest,ClassifyRequest
+# from schemas import UserLogin, UserRegister ,ClassifyText,CategoryInDB,AnalyzeRequest,ClassifyRequest
+from app.schemas import UserLogin, UserRegister ,ClassifyText,CategoryInDB,AnalyzeRequest,ClassifyRequest
 from sqlalchemy.orm import sessionmaker,Session
 from passlib.context import CryptContext
 from datetime import datetime,timedelta
 from jose import jwt
-from model import Base
-# from app.model import Base
+# from model import Base
+from app.model import Base
 from fastapi.middleware.cors import CORSMiddleware
-from hf_model import query
-# from app.hf_model import query
+# from hf_model import query
+from app.hf_model import query
 from google import genai
 from google.genai import types
 import json
