@@ -3,8 +3,8 @@ from sqlalchemy import create_engine
 from dotenv import load_dotenv
 import os
 from sqlalchemy import select
-from model import User ,Historique,Category
-# from app.model import User ,Historique,Category
+# from model import User ,Historique,Category
+from app.model import User ,Historique,Category
 from schemas import UserLogin, UserRegister ,ClassifyText,CategoryInDB,AnalyzeRequest,ClassifyRequest
 # from app.schemas import UserLogin, UserRegister ,ClassifyText,CategoryInDB,AnalyzeRequest,ClassifyRequest
 from sqlalchemy.orm import sessionmaker,Session
