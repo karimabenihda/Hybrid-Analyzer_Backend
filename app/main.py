@@ -94,6 +94,11 @@ async def get_db():
 
 client =genai.Client(api_key=GEMINI_API_KEY)  
 
+@app.get("/")
+async def root():
+    return {"message": "Hyber Analyzer API is running!", "docs": "/docs"}
+
+
 pwd_context=CryptContext(schemes=["argon2","bcrypt"],deprecated="auto")
 @app.post("/register")
 async def register(user: UserRegister, db: AsyncSession = Depends(get_db)):
