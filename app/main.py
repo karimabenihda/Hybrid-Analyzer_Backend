@@ -155,17 +155,16 @@ async def login(user: UserLogin, response: Response, db: AsyncSession = Depends(
         algorithm=ALGORITHM
     )
 
-    response.set_cookie("access_token", f"Bearer {token}", httponly=True)
-
+    response.set_cookie(
+        key="access_token",
+        value=f"Bearer {token}",
+        httponly=True,
+        secure=True,  # Use True in production (HTTPS), False for local HTTP
+        samesite="none",  # Required for cross-origin cookies
+        max_age=ACCESS_TOKEN_EXPIRE_MINUTES * 60,  # in seconds
+    )
     return {"message": "Login successful"}
 
-# @app.get("/auth/me")
-# async def get_current_user_from_cookie(token: str = Depends(oauth2_scheme)):
-    # validate JWT from cookie
-    if not token:
-        raise HTTPException(status_code=401, detail="Not authenticated")
-    # decode token...
-    return {"user": "example"} 
 
 @app.post("/logout")
 async def logout(response: Response):
@@ -182,8 +181,28 @@ async def logout(response: Response):
 async def get_current_user(access_token: str = Cookie(None)):
     if not access_token:
         return {"logged_in": False}
-    # optionally, decode token to get user info
-    return {"logged_in": True}
+    try:
+        # Remove "Bearer " prefix if it exists
+        token = access_token.replace("Bearer ", "")
+        
+        # Decode and verify the token
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        username = payload.get("sub")
+        user_id = payload.get("id")
+        
+        if username is None or user_id is None:
+            return {"logged_in": False}
+        
+        return {
+            "logged_in": True,
+            "username": username,
+            "user_id": user_id
+        }
+    except jwt.ExpiredSignatureError:
+        return {"logged_in": False, "error": "Token expired"}
+    except jwt.JWTError:
+        return {"logged_in": False, "error": "Invalid token"}
+
 
 
 @app.post('/categories')
