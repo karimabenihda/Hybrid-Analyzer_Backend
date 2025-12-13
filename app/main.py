@@ -25,7 +25,7 @@ from google.genai.errors import ServerError, APIError
 # from fastapi.security import OAuth2PasswordBearer
 
 
-app=FastAPI(docs_url="/docs-ui", redoc_url=None)
+app=FastAPI()
 
 
 app.add_middleware(
