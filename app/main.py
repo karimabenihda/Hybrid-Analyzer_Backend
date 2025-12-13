@@ -1,4 +1,4 @@
-from fastapi import FastAPI,Depends,HTTPException,Response
+from fastapi import FastAPI,Depends,Cookie,HTTPException,Response
 from sqlalchemy import create_engine
 from dotenv import load_dotenv
 import os
@@ -176,6 +176,14 @@ async def logout(response: Response):
         samesite="none"     # must match how it was set
     )
     return {"message": "Logged out successfully"}
+
+
+@app.get("/auth/me")
+async def get_current_user(access_token: str = Cookie(None)):
+    if not access_token:
+        return {"logged_in": False}
+    # optionally, decode token to get user info
+    return {"logged_in": True}
 
 
 @app.post('/categories')
