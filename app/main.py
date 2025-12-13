@@ -167,6 +167,16 @@ async def login(user: UserLogin, response: Response, db: AsyncSession = Depends(
     # decode token...
     return {"user": "example"} 
 
+@app.post("/logout")
+async def logout(response: Response):
+    response.delete_cookie(
+        key="access_token",
+        httponly=True,
+        secure=True,        # set False if testing on http (localhost)
+        samesite="none"     # must match how it was set
+    )
+    return {"message": "Logged out successfully"}
+
 
 @app.post('/categories')
 async def add_categories(category: CategoryInDB, db: AsyncSession = Depends(get_db)):
