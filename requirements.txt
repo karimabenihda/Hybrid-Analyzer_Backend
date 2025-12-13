@@ -1,6 +1,5 @@
 fastapi
 uvicorn
-supabase
 dotenv
 python-dotenv 
 sqlalchemy 
@@ -14,5 +13,5 @@ python-jose[cryptography]
 requests
 pytest
 google-genai
-
+argon2-cffi
 asyncpg
