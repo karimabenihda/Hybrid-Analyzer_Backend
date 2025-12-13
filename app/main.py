@@ -7,7 +7,9 @@ from sqlalchemy import select
 from app.model import User ,Historique,Category
 # from schemas import UserLogin, UserRegister ,ClassifyText,CategoryInDB,AnalyzeRequest,ClassifyRequest
 from app.schemas import UserLogin, UserRegister ,ClassifyText,CategoryInDB,AnalyzeRequest,ClassifyRequest
-from sqlalchemy.orm import sessionmaker,Session
+# from sqlalchemy.orm import sessionmaker,Session
+from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
+
 from passlib.context import CryptContext
 from datetime import datetime,timedelta
 from jose import jwt
@@ -66,10 +68,13 @@ print(f"Running in {ENV} mode")
 # engine=create_engine(DATABASE_URL)
 # session=sessionmaker(bind=engine,autocommit=False,autoflush=False)
 
-engine = create_async_engine(DATABASE_URL, echo=True, connect_args={
+engine = create_async_engine(DATABASE_URL, echo=True, pool_pre_ping=True,
+    pool_recycle=1800, connect_args={
         "ssl": "require", 
     })
-async_session = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
+                                   
+async_session = async_sessionmaker(engine, expire_on_commit=False)
+                                #    class_=AsyncSession ,
 
 @app.on_event("startup")
 async def on_startup():
@@ -248,7 +253,7 @@ def generate_gemini_summary(text: str, best_category: str):
    
     
 @app.post('/classify', response_model=ClassifyText)
-def classify_text(payload: ClassifyRequest):
+async def classify_text(payload: ClassifyRequest):
     # print(f"Text: {payload.text}")
     # print(f"Category: {payload.best_category}")
     
