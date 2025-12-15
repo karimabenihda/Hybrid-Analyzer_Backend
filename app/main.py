@@ -51,10 +51,6 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = os.getenv("ALGORITHM")
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
 
-# DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
-
-# DATABASE_URL= os.getenv("DATABASE_URL_DEVELOP")
-# DATABASE_URL = os.getenv("DATABASE_URL_PRODUCTION")
 
 ENV = os.getenv("ENV", "development") 
 if ENV == "production":
@@ -65,8 +61,6 @@ else:
 print(f"Running in {ENV} mode")
 
 
-# engine=create_engine(DATABASE_URL)
-# session=sessionmaker(bind=engine,autocommit=False,autoflush=False)
 
 engine = create_async_engine(DATABASE_URL, echo=True, pool_pre_ping=True,
     pool_recycle=1800, connect_args={
